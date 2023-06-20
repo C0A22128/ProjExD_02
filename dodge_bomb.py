@@ -26,9 +26,6 @@ def check_bound(rect: pg.Rect) -> tuple[bool, bool]:
         tate = False
     return yoko, tate
 
-
-
-
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -46,7 +43,6 @@ def main():
     bd_rct.center = x, y  #爆弾rctの中心座標を乱数で表示
     vx, vy = +5, +5  #練習2
 
-
     clock = pg.time.Clock()
     tmr = 0
       
@@ -60,13 +56,11 @@ def main():
         avx, avy = vx*accs[min(tmr//500, 9)], vy*accs[min(tmr//500, 9)]
         bd_img = bd_imgs[min(tmr//500, 9)]
         
-    
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: 
                 return
             
-
         if kk_rct.colliderect(bd_rct): #練習５
             print("ゲームオーバー")
             return #ゲームオーバー
@@ -93,7 +87,6 @@ def main():
         pg.display.update()
         tmr += 1
         clock.tick(50)
-
 
 if __name__ == "__main__":
     pg.init()
