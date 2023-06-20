@@ -40,8 +40,6 @@ def main():
     bd_img = pg.Surface((20, 20))  #練習1
     bd_img.set_colorkey((0, 0, 0)) #黒い範囲を削除
     pg.draw.circle(bd_img, (255, 0, 0), (10, 10), 10)
-    bd_img = pg.transform.rotozoom(bd_img, 0, 2.0)
-    bd_imgs.set_colorkey((0, 0, 0))
     x = random.randint(0, WIDTH)
     y = random.randint(0, HEIGHT)
     bd_rct = bd_img.get_rect()  #爆弾Surface
@@ -51,16 +49,18 @@ def main():
 
     clock = pg.time.Clock()
     tmr = 0
-    accs = [a for a in range(1, 11)]  #演習２
-    bd_imgs = []
+      
+    bd_imgs = []  #演習２
     for r in range(1, 11):
+        accs = [a for a in range(1, 11)]
         bd_img = pg.Surface((20*r, 20*r))
+        bd_img.set_colorkey((0, 0, 0))
         pg.draw.circle(bd_img, (255, 0, 0), (10*r, 10*r), 10*r)
         bd_imgs.append(bd_img)
-    avx, avy = vx*accs[min(tmr//500, 9)], vy*accs[min(tmr//500, 9)]
-    bd_img = bd_imgs[min(tmr//500, 9)]
+        avx, avy = vx*accs[min(tmr//500, 9)], vy*accs[min(tmr//500, 9)]
+        bd_img = bd_imgs[min(tmr//500, 9)]
+        
     
-
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: 
