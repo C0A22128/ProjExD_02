@@ -11,6 +11,7 @@ delta = {
     pg.K_RIGHT: (+5, 0),
 }
     
+
 def check_bound(rect: pg.Rect) -> tuple[bool, bool]:
     """
     こうかとんRect 爆弾Rectが画面がか画面内を判定する
@@ -26,6 +27,8 @@ def check_bound(rect: pg.Rect) -> tuple[bool, bool]:
     return yoko, tate
 
 
+
+
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -37,6 +40,8 @@ def main():
     bd_img = pg.Surface((20, 20))  #練習1
     bd_img.set_colorkey((0, 0, 0)) #黒い範囲を削除
     pg.draw.circle(bd_img, (255, 0, 0), (10, 10), 10)
+    bd_img = pg.transform.rotozoom(bd_img, 0, 2.0)
+    bd_imgs.set_colorkey((0, 0, 0))
     x = random.randint(0, WIDTH)
     y = random.randint(0, HEIGHT)
     bd_rct = bd_img.get_rect()  #爆弾Surface
@@ -46,6 +51,14 @@ def main():
 
     clock = pg.time.Clock()
     tmr = 0
+    accs = [a for a in range(1, 11)]  #演習２
+    bd_imgs = []
+    for r in range(1, 11):
+        bd_img = pg.Surface((20*r, 20*r))
+        pg.draw.circle(bd_img, (255, 0, 0), (10*r, 10*r), 10*r)
+        bd_imgs.append(bd_img)
+    avx, avy = vx*accs[min(tmr//500, 9)], vy*accs[min(tmr//500, 9)]
+    bd_img = bd_imgs[min(tmr//500, 9)]
     
 
     while True:
@@ -53,9 +66,10 @@ def main():
             if event.type == pg.QUIT: 
                 return
             
-            if kk_rct.colliderect(bd_rct): #練習５
-                print("ゲームオーバー")
-                return #ゲームオーバー
+
+        if kk_rct.colliderect(bd_rct): #練習５
+            print("ゲームオーバー")
+            return #ゲームオーバー
             
         key_lst = pg.key.get_pressed()
         sum_mv = [0, 0]  #合計移動量
