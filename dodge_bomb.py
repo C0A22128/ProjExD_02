@@ -10,6 +10,20 @@ delta = {
     pg.K_LEFT : (-5, 0),
     pg.K_RIGHT: (+5, 0),
 }
+    
+def chec_bound(rect: pg.Rect) -> tuple[bool, bool]:
+    """
+    こうかとんRect 爆弾Rectが画面がか画面内を判定する
+    引数：こうかとんRect or 爆弾Rect
+    戻り値：横方向、縦方向の判定結果タプル
+    """
+
+    yoko, tate = True, True
+    if rect.left < 0 or WIDTH < rect.right:  #横方向判定
+        yoko = False
+    if rect.top < 0 or HEIGHT < rect.bottom:  #縦方向判定
+        tate = False
+    return yoko, tate
 
 
 def main():
@@ -46,15 +60,21 @@ def main():
                 sum_mv[0] += mv[0] 
                 sum_mv[1] += mv[1]
         kk_rct.move_ip(sum_mv)
+        if chec_bound(kk_rct) != (True, True):
+            kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
 
         screen.blit(bg_img, [0, 0])
-        #screen.blit(kk_img, [900, 400])
         screen.blit(kk_img, kk_rct)
         bd_rct.move_ip(vx, vy)
         screen.blit(bd_img, bd_rct)
+        yoko, tate = chec_bound(bd_rct)
+        if not yoko:
+            vx *= -1
+        if not tate:
+            vy *= -1
         pg.display.update()
         tmr += 1
-        clock.tick(10)
+        clock.tick(50)
 
 
 if __name__ == "__main__":
